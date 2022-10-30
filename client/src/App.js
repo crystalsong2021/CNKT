@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 
 function App() {
-  // const [events, setEvents] = React.useState(null);
+  const [events, setEvents] = React.useState(null);
   React.useEffect(() => {
     fetch('http://localhost:3001/events', {
       headers: {
@@ -11,13 +11,15 @@ function App() {
          "mode":"no-cors"
       }})
       .then((res) => res.json())
-      .then((data) => console.log(data))
-  })
+      .then((data) => setEvents(data.sampleData));
+  }, [])
 
   return (
     <div className="App">
       <header className="App-header">
-        <h>hello</h>
+        <p>{!events ? "Loading..." : events.map(event => <li>{event.eventTitle}</li>)
+
+         }</p>
       </header>
     </div>
   );
