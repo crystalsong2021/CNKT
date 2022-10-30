@@ -12,6 +12,10 @@ app.use(cors());
 //middleware
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.send("Hello from Backend")
+})
+
 app.get('/events', async(req, res) => {
   console.log('hello');
   console.log('data', sampleData);
