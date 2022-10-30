@@ -11,14 +11,15 @@ function App() {
          "mode":"no-cors"
       }})
       .then((res) => res.json())
-      .then((data) => setEvents(data.sampleData));
+      .then((data) => setEvents(data));
   }, [])
 
   return (
     <div className="App">
       <header className="App-header">
-        <p>{!events ? "Loading..." : events.map(event => <li>{event.eventTitle}</li>)
-
+        <p>{
+          // eslint-disable-next-line array-callback-return
+          !events ? "Loading..." : events.map((event) => <li>{event.eventDateTime}</li>)
          }</p>
       </header>
     </div>
