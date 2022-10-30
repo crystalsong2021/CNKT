@@ -5,7 +5,8 @@ var cors = require('cors');
 const PORT = process.env.PORT || 3001;
 const app = express();
 const sampleData = require('./sampleData');
-const Event = require('./models/eventModel')
+const Event = require('./models/eventModel');
+const User = require('./models/userModel');
 
 app.use(cors());
 
@@ -46,7 +47,7 @@ app.patch('/events/:eventId', async(req, res) => {
   const result = await Event.find({eventId:eventId });
   const updateAttendee = result[0].attendees + 1;
 
-  try{
+  try {
     const event = await Event.findOneAndUpdate({eventId}, {
       attendees: updateAttendee
     });
@@ -58,9 +59,16 @@ app.patch('/events/:eventId', async(req, res) => {
 
 })
 
-app.post('/signupHost', (req, res) => {
+app.post('/signupHost', async(req, res) => {
   console.log('Signup Host');
-  res.send('success');
+  const {name, organization, email, phoneNumber} = req.body;
+  try {
+    const user = await User.create({name, organization, email, phoneNumber});
+    res.status(200).json({user});
+
+  } catch (error) {
+    res.status(400).json({error: error.message})
+  }
 })
 
 //connect to db
